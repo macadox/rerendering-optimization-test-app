@@ -1,23 +1,16 @@
 import React from "react";
 import { Layout } from "ui";
-import UserProfile from "./UserProfile";
-import { AppContextProvider } from "./contexts/AppContext";
+import { UserProfile } from "./UserProfile";
 
 const App = () => {
   const title = "App Context Example";
 
   return (
     <Layout title={title}>
-      <UserProfile title={title} />
+      <UserProfile />
     </Layout>
   );
 };
 
-const AppWithContext = () => (
-  <AppContextProvider>
-    <App />
-  </AppContextProvider>
-);
-
-export default AppWithContext;
+export default App;
 

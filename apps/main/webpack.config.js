@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { ModuleFederationPlugin } = require("webpack").container;
+const deps = require("./package.json").dependencies;
 
 module.exports = {
   entry: "./src/index",
@@ -44,6 +46,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   plugins: [
@@ -51,6 +57,29 @@ module.exports = {
       filename: "index.html",
       inject: true,
       template: "public/index.html",
+    }),
+    new ModuleFederationPlugin({
+      name: "main",
+      filename: "remoteEntry.js",
+      remotes: {
+        drilling: "drilling@http://localhost:3000/remoteEntry.js",
+        context: "context@http://localhost:3001/remoteEntry.js",
+        manager: "manager@http://localhost:3002/remoteEntry.js",
+      },
+      shared: {
+        ...deps,
+        ui: {
+          singleton: true,
+        },
+        react: {
+          singleton: true,
+          requiredVersion: deps.react,
+        },
+        "react-dom": {
+          singleton: true,
+          requiredVersion: deps["react-dom"],
+        },
+      },
     }),
   ],
 };

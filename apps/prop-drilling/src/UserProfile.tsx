@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Card, Input } from "ui";
 
-const UserProfile = ({ title }: { title: string }) => {
+const title = "Prop Drilling Example";
+
+export const UserProfile = () => {
   const [name, setName] = useState("Maciek");
   const [email] = useState("macadox@gmail.com");
   const [address] = useState({
@@ -46,17 +48,17 @@ const UserProfile = ({ title }: { title: string }) => {
           call a state update hook, this (apart from a lot of things that are
           done under the hood about DOM and Virtual DOM). Forces the whole
           component to rerender. This means that the component&apos;s render
-          method is run. Thus rerendering the child components.
+          method is run. Even if only one piece of data changes, all components
+          that consume it will re-render.
         </p>
         <p>
-          Here by typing values in `Another Text` Field, we are updating the
-          UserProfile state. This action rerenders the Card component, which
-          does not share the state with the `Another Text` Field.
+          Here by typing values in `Input` Field for `Another Text`, we are
+          updating the UserProfile state. This action rerenders the Card
+          component, which does not share the state with the `Input` Field for
+          `Another Text`.
         </p>
       </div>
     </>
   );
 };
-
-export default UserProfile;
 
